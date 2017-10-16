@@ -171,13 +171,14 @@
     $(document).on("submit", "form[data-ajax=true]", function (evt) {
         var clickInfo = $(this).data(data_click) || [],
             clickTarget = $(this).data(data_target),
-            isCancel = clickTarget && clickTarget.hasClass("cancel");
+            isCancel = clickTarget && clickTarget.hasClass("cancel"),
+            action = clickTarget && clickTarget.attr("formaction");
         evt.preventDefault();
         if (!isCancel && !validate(this)) {
             return;
         }
         asyncRequest(this, {
-            url: this.action,
+            url: action || this.action,
             type: this.method || "GET",
             data: clickInfo.concat($(this).serializeArray())
         });
